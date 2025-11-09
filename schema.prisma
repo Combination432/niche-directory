@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Listing {
+  id           String             @id @default(cuid())
+  name         String
+  slug         String             @unique
+  description  String
+  websiteUrl   String?
+  contactEmail String?
+  phone        String?
+  locationId   String
+  location     Location           @relation(fields: [locationId], references: [id])
+  isFeatured   Boolean            @default(false)
+  status       ListingStatus      @default(PENDING)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  categories   ListingCategory[]
+  tags         ListingTag[]
+
+  @@index([locationId])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([slug])
+}
+
+model Category {
+  id       String            @id @default(cuid())
+  name     String
+  slug     String            @unique
+  listings ListingCategory[]
+
+  @@index([slug])
+}
+
+model Location {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  city     String?
+  region   String?
+  country  String?
+  listings Listing[]
+
+  @@index([slug])
+}
+
+model ListingCategory {
+  listingId  String
+  categoryId String
+  listing    Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([listingId, categoryId])
+  @@index([categoryId])
+}
+
+model Tag {
+  id       String       @id @default(cuid())
+  name     String
+  slug     String       @unique
+  listings ListingTag[]
+
+  @@index([slug])
+}
+
+model ListingTag {
+  listingId String
+  tagId     String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([listingId, tagId])
+  @@index([tagId])
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  @@index([email])
+}
+
+enum ListingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

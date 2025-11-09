@@ -1,0 +1,4 @@
+name,description,websiteUrl,contactEmail,phone,locationName,categoryNames,status,isFeatured
+"The Green Grocer","Organic produce and sustainable groceries for health-conscious consumers. Farm-to-table quality with competitive prices.","https://example.com/greengrocer","contact@greengrocer.com","5551234567","Austin, TX","Retail Stores|Health & Wellness","APPROVED","false"
+"Downtown Yoga Studio","Relaxing yoga classes for all skill levels. Meditation, hot yoga, and personal training available.","https://example.com/yoga","info@yogastudio.com","5552345678","Austin, TX","Health & Wellness","APPROVED","true"
+"Mike's Auto Repair","Honest, reliable auto repair services. We fix all makes and models with a satisfaction guarantee.","","mike@autorepair.com","5553456789","Austin, TX","Automotive","PENDING","false"
